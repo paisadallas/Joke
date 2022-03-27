@@ -2,7 +2,6 @@ package com.john.joke.di
 
 import android.content.Context
 import androidx.room.Room
-import com.google.gson.internal.GsonBuildConfig
 import com.john.joke.database.DatabaseRepository
 import com.john.joke.database.DatabaseRepositoryImpl
 import com.john.joke.database.JokeDao
