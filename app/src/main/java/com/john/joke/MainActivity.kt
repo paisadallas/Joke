@@ -8,7 +8,7 @@ import com.john.joke.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    //merge
+
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
