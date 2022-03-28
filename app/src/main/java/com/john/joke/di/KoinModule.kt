@@ -9,9 +9,11 @@ import com.john.joke.database.JokeDatabase
 import com.john.joke.res.JokeAPI
 import com.john.joke.res.JokeRepository
 import com.john.joke.res.JokeRepositoryImpl
+import com.john.joke.viewmodel.JokeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -69,5 +71,8 @@ val applicationModule = module {
     single { providesDatabaseDao(get()) }
     single { providesDatabaseRepository(get()) }
 
+}
 
+val viewModelModule = module {
+    viewModel {JokeViewModel(get(),get())}
 }

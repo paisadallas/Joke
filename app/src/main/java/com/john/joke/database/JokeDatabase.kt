@@ -8,6 +8,7 @@ import com.john.joke.model.Value
     entities = [Value::class],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class JokeDatabase: RoomDatabase() {
     abstract fun getJokeDao():JokeDao
 }

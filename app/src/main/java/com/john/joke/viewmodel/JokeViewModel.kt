@@ -1,5 +1,6 @@
 package com.john.joke.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +19,7 @@ class JokeViewModel(
 ) : ViewModel() {
 
     private val _sortedJoke: MutableLiveData<JokeState> = MutableLiveData(JokeState.LOADING)
-    private val jokes: LiveData<JokeState> get() = _sortedJoke
+     val jokes: LiveData<JokeState> get() = _sortedJoke
 
     fun getAllJoke() {
         viewModelScope.launch(ioDispatcher) {
@@ -27,6 +28,7 @@ class JokeViewModel(
                 if (response.isSuccessful) {
                     response.body()?.let {
                         databaseRepo.insertJoke(it)
+                        Log.d("RESPONSE",it[0].toString())
                         val localData = databaseRepo.getAllJoke()
                         _sortedJoke.postValue(JokeState.SUCCESS(localData))
                     }?: throw Exception("Response null")

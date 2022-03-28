@@ -1,7 +1,6 @@
 package com.john.joke.res
 
 import com.john.joke.model.Value
-import com.john.joke.res.JokeAPI.Companion.JOKE_PATH
 import retrofit2.Response
 import retrofit2.http.GET
 

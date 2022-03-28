@@ -3,9 +3,12 @@ package com.john.joke.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
+import com.john.joke.database.Converters
 
 @Entity
+@TypeConverters(Converters::class)
 data class Value(
     @SerializedName("categories")
     val categories: List<String>,
