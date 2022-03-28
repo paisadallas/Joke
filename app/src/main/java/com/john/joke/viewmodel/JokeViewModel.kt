@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.john.joke.database.DatabaseRepository
+import com.john.joke.model.Value
 import com.john.joke.res.JokeRepository
 import com.john.joke.utils.JokeState
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,13 +25,23 @@ class JokeViewModel(
     fun getAllJoke() {
         viewModelScope.launch(ioDispatcher) {
             try {
+                Log.d("RESPONSE","1")
                 val response = jokeNetwork.getRandomJoke()
+                Log.d("RESPONSE","2")
                 if (response.isSuccessful) {
+                    Log.d("RESPONSE","3")
                     response.body()?.let {
-                        databaseRepo.insertJoke(it)
-                        Log.d("RESPONSE",it[0].toString())
-                        val localData = databaseRepo.getAllJoke()
-                        _sortedJoke.postValue(JokeState.SUCCESS(localData))
+                        Log.d("RESPONSE","4")
+                        Log.d("RESPONSE",it.toString())
+                        Log.d("RESPONSE","5")
+                        Log.d("RESPONSE",it.value.joke)
+                     //   var dataJoke = databaseRepo.insertJoke(it)
+                        var myObject : Value = it.value
+                        _sortedJoke.postValue(JokeState.SUCCESS(myObject))
+                      //  databaseRepo.insertJoke(it)
+                     //   Log.d("RESPONSE",it[0].toString())
+                     //   val localData = databaseRepo.getAllJoke()
+                     //   _sortedJoke.postValue(JokeState.SUCCESS(localData))
                     }?: throw Exception("Response null")
                 } else {
                     throw Exception("No successful response")

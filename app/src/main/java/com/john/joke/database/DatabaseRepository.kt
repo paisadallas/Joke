@@ -1,10 +1,14 @@
 package com.john.joke.database
 
+import com.john.joke.model.Joke
 import com.john.joke.model.Value
 
+/**
+ * Insert, get and delete data
+ */
 
 interface DatabaseRepository{
-    suspend fun insertJoke(newJoke:List<Value>)
+    suspend fun insertJoke(newJoke: List<Value>)
     suspend fun getAllJoke():List<Value>
     suspend fun deleteJokes(jokes:List<Value>)
 }

@@ -1,9 +1,9 @@
 package com.john.joke.database
 
+/**
+ * Convert list data to primitive data vice versa
+ */
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.john.joke.model.Value
 
 class Converters {
 

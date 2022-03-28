@@ -1,6 +1,7 @@
 package com.john.joke.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,11 @@ class RandomFragment : BaseFragment() {
                     Toast.makeText(requireContext(), "loading...", Toast.LENGTH_LONG).show()
                 }
                 is JokeState.SUCCESS <*> ->{
-                    val joke = it.joke as List<Value>
+                //    val joke = it.joke as List<Value>
+                    Log.d("RESPONSE","6")
+                   var miObject:Value = it.joke as Value
+
+                    Log.d("RESPONSE_FRAGMENT",miObject.joke)
 
                 }
                 is JokeState.ERROR ->{

@@ -7,6 +7,10 @@ import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 import com.john.joke.database.Converters
 
+/**
+ * Data class Value, this class receive the data to be show
+ */
+
 @Entity
 @TypeConverters(Converters::class)
 data class Value(

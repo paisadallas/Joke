@@ -1,5 +1,9 @@
 package com.john.joke.database
 
+/**
+ * Creating Room Data Base
+ */
+
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import com.john.joke.model.Value
