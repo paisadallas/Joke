@@ -2,6 +2,7 @@ package com.john.joke.view
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,24 +18,24 @@ class RandomFragment : BaseFragment() {
     }
 
     private var message = ""
-
+    private var dataEmit = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        jokeViewModel.getAllJoke()
-        readData()
+     //   jokeViewModel.getAllJoke()
+     //   readData()
 
         binding.btGenerate.setOnClickListener {
-            message()
+            jokeViewModel.getAllJoke()
+            readData()
         }
         return binding.root
     }
 
-    fun message() {
-        jokeViewModel.getAllJoke()
-        readData()
+    private fun message() {
+
         AlertDialog.Builder(requireContext())
             .setTitle("Joke")
             .setMessage(message)
@@ -43,6 +44,8 @@ class RandomFragment : BaseFragment() {
             }
             .create()
             .show()
+
+        dataEmit =0
     }
 
     private fun readData() {
@@ -56,6 +59,11 @@ class RandomFragment : BaseFragment() {
                     binding.btGenerate.isEnabled = true
                     var miObject: Value = it.joke as Value
                     message = miObject.joke
+                    Log.d("RESPONSE","randomFragment $message")
+                    dataEmit +=1
+                    if (dataEmit==2){
+                        message()
+                    }
                 }
                 is JokeState.ERROR -> {
                     Toast.makeText(requireContext(), it.error.localizedMessage, Toast.LENGTH_LONG)

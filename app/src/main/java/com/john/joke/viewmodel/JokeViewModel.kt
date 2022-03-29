@@ -11,6 +11,7 @@ import com.john.joke.res.JokeRepository
 import com.john.joke.utils.JokeState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 
 class JokeViewModel(
@@ -28,12 +29,12 @@ class JokeViewModel(
                 val response = jokeNetwork.getRandomJoke()
                 if (response.isSuccessful) {
                     response.body()?.let {
-                        Log.d("RESPONSE",it.value.joke)
+                    //    Log.d("RESPONSE",it.value.joke)
                      //   var dataJoke = databaseRepo.insertJoke(it)
                         var myObject : Value = it.value
                         _sortedJoke.postValue(JokeState.SUCCESS(myObject))
                       //  databaseRepo.insertJoke(it)
-
+                        Log.d("RESPONSE","getAllJoke")
                      //   val localData = databaseRepo.getAllJoke()
                      //   _sortedJoke.postValue(JokeState.SUCCESS(localData))
                     }?: throw Exception("Response null")
@@ -47,14 +48,16 @@ class JokeViewModel(
         }
     }
 
-
-    fun getCustomJoke(){
+    fun getCustomJoke(name:String,lastName:String){
         viewModelScope.launch(ioDispatcher){
             try {
-                val response = jokeNetwork.getCustomJoke()
+                val response = jokeNetwork.getCustomJoke(name,lastName)
                 if(response.isSuccessful){
                     response.body()?.let {
-                        Log.d("RESPONSE",it.value.joke)
+                    //    Log.d("RESPONSE_CUSTOM",it.value.joke)
+                        var myObject : Value = it.value
+                        _sortedJoke.postValue(JokeState.SUCCESS(myObject))
+                        Log.d("RESPONSE","getCustomJoke")
                     }
                 }
             }catch (e:java.lang.Exception){
@@ -63,4 +66,7 @@ class JokeViewModel(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

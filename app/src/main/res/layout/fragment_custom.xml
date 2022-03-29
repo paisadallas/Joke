@@ -27,17 +27,20 @@
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/name"
                 android:layout_margin="@dimen/margin_editext"
-                android:text="lkasjdfklsdjf" />
+                android:text="" />
 
             <EditText
                 android:id="@+id/et_last_name"
                 android:layout_width="match_parent"
+                android:hint="@string/last_name"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_editext"
-                android:text="laksdjflksd" />
+                android:text="" />
 
             <Button
+                android:id="@+id/bt_generate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

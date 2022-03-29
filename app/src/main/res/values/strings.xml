@@ -8,4 +8,6 @@
     <string name="random">Random</string>
     <string name="custom">Custom</string>
     <string name="jokes">Jokes</string>
+    <string name="name">name</string>
+    <string name="last_name">last name</string>
 </resources>
