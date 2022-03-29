@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.john.joke.R
 import com.john.joke.databinding.FragmentCustomBinding
 
-class CustomFragment : Fragment() {
+class CustomFragment : BaseFragment() {
 
     private val binding by lazy {
         FragmentCustomBinding.inflate(layoutInflater)
@@ -19,6 +19,7 @@ class CustomFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        jokeViewModel.getCustomJoke()
         return binding.root
     }
 

@@ -6,6 +6,7 @@ import retrofit2.Response
 
 interface JokeRepository {
     suspend fun getRandomJoke(): Response <Joke>
+    suspend fun getCustomJoke():Response <Joke>
 }
 
 class JokeRepositoryImpl(
@@ -13,4 +14,8 @@ class JokeRepositoryImpl(
 ) : JokeRepository {
     override suspend fun getRandomJoke(): Response <Joke> =
         jokeApi.getRandomJoke()
+
+    override suspend fun getCustomJoke(): Response<Joke> =
+        jokeApi.getCustomJoke()
+
 }

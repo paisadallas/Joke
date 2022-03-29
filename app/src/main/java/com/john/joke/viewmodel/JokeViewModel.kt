@@ -25,21 +25,15 @@ class JokeViewModel(
     fun getAllJoke() {
         viewModelScope.launch(ioDispatcher) {
             try {
-                Log.d("RESPONSE","1")
                 val response = jokeNetwork.getRandomJoke()
-                Log.d("RESPONSE","2")
                 if (response.isSuccessful) {
-                    Log.d("RESPONSE","3")
                     response.body()?.let {
-                        Log.d("RESPONSE","4")
-                        Log.d("RESPONSE",it.toString())
-                        Log.d("RESPONSE","5")
                         Log.d("RESPONSE",it.value.joke)
                      //   var dataJoke = databaseRepo.insertJoke(it)
                         var myObject : Value = it.value
                         _sortedJoke.postValue(JokeState.SUCCESS(myObject))
                       //  databaseRepo.insertJoke(it)
-                     //   Log.d("RESPONSE",it[0].toString())
+
                      //   val localData = databaseRepo.getAllJoke()
                      //   _sortedJoke.postValue(JokeState.SUCCESS(localData))
                     }?: throw Exception("Response null")
@@ -48,6 +42,22 @@ class JokeViewModel(
                 }
 
             } catch (e: Exception) {
+                _sortedJoke.postValue(JokeState.ERROR(e))
+            }
+        }
+    }
+
+
+    fun getCustomJoke(){
+        viewModelScope.launch(ioDispatcher){
+            try {
+                val response = jokeNetwork.getCustomJoke()
+                if(response.isSuccessful){
+                    response.body()?.let {
+                        Log.d("RESPONSE",it.value.joke)
+                    }
+                }
+            }catch (e:java.lang.Exception){
                 _sortedJoke.postValue(JokeState.ERROR(e))
             }
         }
