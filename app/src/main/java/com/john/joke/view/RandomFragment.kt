@@ -25,7 +25,7 @@ class RandomFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-     //   jokeViewModel.getAllJoke()
+      //  jokeViewModel.getRandomJoke()
      //   readData()
 
        // val explicit :Boolean= binding.cbExplicit.isChecked
@@ -33,11 +33,11 @@ class RandomFragment : BaseFragment() {
         binding.cbExplicit.setOnClickListener {
             if (binding.cbExplicit.isChecked){
                 Log.d("CHECKED","ENABLE")
-               jokeViewModel.explicit = listOf("explicit")
+               jokeViewModel.explicit = listOf("")
             }
             else{
                 Log.d("CHECKED","DISABLE")
-                jokeViewModel.explicit = listOf("")
+                jokeViewModel.explicit = listOf("explicit")
             }
         }
 

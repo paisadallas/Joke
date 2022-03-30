@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.john.joke.databinding.ItemJokeBinding
+import com.john.joke.model.JokeList
 import com.john.joke.model.Value
 import com.john.joke.model.ValueList
 

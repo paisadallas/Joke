@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.john.joke.R
@@ -23,19 +25,30 @@ class JokesFragment : BaseFragment() {
         FragmentJokesBinding.inflate(layoutInflater)
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding.rvJokes.apply {
-            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+       binding.rvJokes.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = adapterJoke
+
         }
 
-       // jokeViewModel.getAllJokes()
+        binding.rvJokes.addOnScrollListener(object :RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!binding.rvJokes.canScrollVertically(1)){
+
+                    binding.rvJokes.adapter = adapterJoke
+                }
+
+            }
+        })
+
         jokeViewModel.getNoExplicit(jokeViewModel.explicit)
         jokeViewModel.jokes.observe(viewLifecycleOwner){
             when(it){
@@ -58,6 +71,5 @@ class JokesFragment : BaseFragment() {
 
         return binding.root
     }
-
 
 }
