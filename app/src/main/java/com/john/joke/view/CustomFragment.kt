@@ -31,6 +31,7 @@ class CustomFragment : BaseFragment() {
             readData()
         }
 
+        Log.d("CHECKED","CHEKED = ${jokeViewModel.explicit}")
 
         return binding.root
     }

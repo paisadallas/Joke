@@ -11,7 +11,6 @@ import com.john.joke.res.JokeRepository
 import com.john.joke.utils.JokeState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 
 class JokeViewModel(
@@ -20,10 +19,11 @@ class JokeViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
+    var explicit = listOf<String>("")
     private val _sortedJoke: MutableLiveData<JokeState> = MutableLiveData(JokeState.LOADING)
      val jokes: LiveData<JokeState> get() = _sortedJoke
 
-    fun getAllJoke() {
+    fun getRandomJoke() {
         viewModelScope.launch(ioDispatcher) {
             try {
                 val response = jokeNetwork.getRandomJoke()
@@ -65,6 +65,44 @@ class JokeViewModel(
             }
         }
     }
+
+    fun getAllJokes(){
+        viewModelScope.launch(ioDispatcher){
+            try {
+                val response = jokeNetwork.getAllJoke()
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _sortedJoke.postValue(JokeState.SUCCESS(it))
+                    }
+
+                }else{
+
+                }
+            }catch (e:java.lang.Exception){
+                _sortedJoke.postValue(JokeState.ERROR(e))
+
+            }
+        }
+    }
+
+    fun getNoExplicit(explicit:List<String>){
+        viewModelScope.launch(ioDispatcher){
+            try {
+                val response = jokeNetwork.getNoExplicit(explicit)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _sortedJoke.postValue(JokeState.SUCCESS(it))
+                    }
+                }else{
+
+                }
+
+            }catch (e:java.lang.Exception){
+                _sortedJoke.postValue(JokeState.ERROR(e))
+            }
+        }
+    }
+
 
     override fun onCleared() {
         super.onCleared()

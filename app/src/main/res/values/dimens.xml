@@ -4,4 +4,6 @@
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_top_button">30sp</dimen>
     <dimen name="margin_editext">20sp</dimen>
+    <dimen name="margin_card_view">5dp</dimen>
+    <dimen name="explicit_text">20sp</dimen>
 </resources>

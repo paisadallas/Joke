@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.Toast
 import com.john.joke.databinding.FragmentRandomBinding
 import com.john.joke.model.Value
@@ -27,8 +28,22 @@ class RandomFragment : BaseFragment() {
      //   jokeViewModel.getAllJoke()
      //   readData()
 
+       // val explicit :Boolean= binding.cbExplicit.isChecked
+
+        binding.cbExplicit.setOnClickListener {
+            if (binding.cbExplicit.isChecked){
+                Log.d("CHECKED","ENABLE")
+               jokeViewModel.explicit = listOf("explicit")
+            }
+            else{
+                Log.d("CHECKED","DISABLE")
+                jokeViewModel.explicit = listOf("")
+            }
+        }
+
+
         binding.btGenerate.setOnClickListener {
-            jokeViewModel.getAllJoke()
+            jokeViewModel.getRandomJoke()
             readData()
         }
         return binding.root

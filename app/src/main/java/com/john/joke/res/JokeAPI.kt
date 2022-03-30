@@ -1,6 +1,8 @@
 package com.john.joke.res
 
 import com.john.joke.model.Joke
+import com.john.joke.model.JokeList
+import com.john.joke.model.Value
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -21,12 +23,21 @@ interface JokeAPI {
         @Query("lastName") lastName:String
     ):Response<Joke>
 
+    @GET(ALL_JOKE)
+    suspend fun getAllJoke():Response<JokeList>
+
+   // http://api.icndb.com/jokes?exclude=[explicit]
+    @GET(ALL_JOKE)
+    suspend fun getNoExplicit(
+       @Query("exclude") exclude: List<String>
+    ): Response<JokeList>
 
 
     companion object{
 
         const val BASE_URL = "http://api.icndb.com/jokes/"
         private const val JOKE_PATH = "random"
-        private const val CUSTOM ="random"
+        private const val ALL_JOKE ="."
+
     }
 }
