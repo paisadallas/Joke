@@ -14,7 +14,9 @@ import retrofit2.http.Query
 interface JokeAPI {
     //http://api.icndb.com/jokes/random
     @GET(JOKE_PATH)
-    suspend fun getRandomJoke(): Response <Joke>
+    suspend fun getRandomJoke(
+        @Query("exclude") exclude: List<String>
+    ): Response <Joke>
 
     //http://api.icndb.com/jokes/random?firstName=John&lastName=Doe
     @GET("random")
@@ -22,9 +24,6 @@ interface JokeAPI {
         @Query("firstName") firstName:String,
         @Query("lastName") lastName:String
     ):Response<Joke>
-
-    @GET(ALL_JOKE)
-    suspend fun getAllJoke():Response<JokeList>
 
    // http://api.icndb.com/jokes?exclude=[explicit]
     @GET(ALL_JOKE)

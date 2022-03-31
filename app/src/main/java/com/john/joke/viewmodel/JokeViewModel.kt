@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.john.joke.database.DatabaseRepository
+import com.john.joke.model.JokeList
 import com.john.joke.model.Value
 import com.john.joke.res.JokeRepository
 import com.john.joke.utils.JokeState
@@ -21,22 +22,19 @@ class JokeViewModel(
 
     var explicit = listOf<String>("")
     private val _sortedJoke: MutableLiveData<JokeState> = MutableLiveData(JokeState.LOADING)
+    private val _sortedList: MutableLiveData<JokeState> = MutableLiveData(JokeState.LOADING)
      val jokes: LiveData<JokeState> get() = _sortedJoke
-
-    fun getRandomJoke() {
+     val jokeList : LiveData<JokeState> get() = _sortedList
+    fun getRandomJoke(explicit: List<String>) {
         viewModelScope.launch(ioDispatcher) {
             try {
-                val response = jokeNetwork.getRandomJoke()
+                val response = jokeNetwork.getRandomJoke(explicit)
                 if (response.isSuccessful) {
                     response.body()?.let {
-                    //    Log.d("RESPONSE",it.value.joke)
-                     //   var dataJoke = databaseRepo.insertJoke(it)
-                        var myObject : Value = it.value
+
+                        var myObject : Value? = it.value
                         _sortedJoke.postValue(JokeState.SUCCESS(myObject))
-                      //  databaseRepo.insertJoke(it)
-                        Log.d("RESPONSE","getAllJoke")
-                     //   val localData = databaseRepo.getAllJoke()
-                     //   _sortedJoke.postValue(JokeState.SUCCESS(localData))
+
                     }?: throw Exception("Response null")
                 } else {
                     throw Exception("No successful response")
@@ -49,57 +47,48 @@ class JokeViewModel(
     }
 
     fun getCustomJoke(name:String,lastName:String){
-        viewModelScope.launch(ioDispatcher){
+        viewModelScope.launch(ioDispatcher) {
             try {
-                val response = jokeNetwork.getCustomJoke(name,lastName)
-                if(response.isSuccessful){
+                val response = jokeNetwork.getCustomJoke(name, lastName)
+                if (response.isSuccessful) {
                     response.body()?.let {
-                    //    Log.d("RESPONSE_CUSTOM",it.value.joke)
-                        var myObject : Value = it.value
+                        var myObject: Value ?= it.value
                         _sortedJoke.postValue(JokeState.SUCCESS(myObject))
-                        Log.d("RESPONSE","getCustomJoke")
                     }
                 }
-            }catch (e:java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 _sortedJoke.postValue(JokeState.ERROR(e))
             }
         }
     }
 
-    fun getAllJokes(){
-        viewModelScope.launch(ioDispatcher){
-            try {
-                val response = jokeNetwork.getAllJoke()
-                if (response.isSuccessful){
-                    response.body()?.let {
-                        _sortedJoke.postValue(JokeState.SUCCESS(it))
-                    }
-
-                }else{
-
-                }
-            }catch (e:java.lang.Exception){
-                _sortedJoke.postValue(JokeState.ERROR(e))
-
-            }
-        }
-    }
-
-    fun getNoExplicit(explicit:List<String>){
-        viewModelScope.launch(ioDispatcher){
+    fun getNoExplicit(explicit: List<String>) {
+        viewModelScope.launch(ioDispatcher) {
             try {
                 val response = jokeNetwork.getNoExplicit(explicit)
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     response.body()?.let {
-                        _sortedJoke.postValue(JokeState.SUCCESS(it))
+                        _sortedList?.postValue(JokeState.SUCCESS(it))
+
+                        var listJoke2  = it as JokeList
+
+                      //  loadData(listJoke2.value)
                     }
-                }else{
-
                 }
-
-            }catch (e:java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 _sortedJoke.postValue(JokeState.ERROR(e))
             }
+        }
+    }
+
+    suspend fun loadData(data:List<Value>){
+
+        try {
+            val localData = databaseRepo.insertJoke(data)
+            _sortedList.postValue(JokeState.SUCCESS(localData))
+
+        }catch (e :Exception){
+            _sortedList.postValue(JokeState.ERROR(e))
         }
     }
 
