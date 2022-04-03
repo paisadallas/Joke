@@ -57,7 +57,7 @@ class JokesFragment : BaseFragment() {
                 }
                 is JokeState.SUCCESS <*>->{
 
-                    var listJoke2  = it.joke as JokeList
+                    val listJoke2  = it.joke as JokeList
 
                     adapterJoke.update(listJoke2.value)
 
